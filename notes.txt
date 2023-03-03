@@ -1,0 +1,30 @@
+# Initiated DB::Downloading and installing MariaDB
+docker run --name mariadbtest -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mypass -d mariadb/server:10.3
+sudo docker exec -it mariadbtest /bin/bash
+mysql -u root -p
+create database test1;
+
+# Script
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (id bigint primary key, first_name varchar(128), last_name varchar(128));
+
+DROP FUNCTION IF EXISTS get_sum;
+
+DELIMITER //
+
+CREATE function get_sum (a INT,
+                        b INT)
+returns INT DETERMINISTIC
+begin
+  DECLARE total_value INT;
+
+  SET total_value = a + b;
+
+  RETURN total_value;
+end;  //
+
+DELIMITER ;
+
+
+# Run & Test
+Run Spring Boot application with command: mvn test -Dtest=UserControllerTests. by console, IntelliJ etc.
